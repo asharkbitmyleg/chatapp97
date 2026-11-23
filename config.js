@@ -2,10 +2,10 @@
 // (Firebase console > Project settings > Your apps > Web app > Config)
 // These values are safe to publish: your Firestore rules are what protect the data.
 window.FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDK99QVHBElmN-lRUc7Zix2-nF7cprLq14",
-  authDomain: "new-project-9a878.firebaseapp.com",
-  projectId: "new-project-9a878",
-  storageBucket: "new-project-9a878.firebasestorage.app",
-  messagingSenderId: "840459553501",
-  appId: "1:840459553501:web:a4bf5f98ef3f8b720fa934"
+  apiKey: "AIzaSyCCmQOSElk8GlLDBZes7gKO3rMmr9mTZCE",
+  authDomain: "goooooning-a1e27.firebaseapp.com",
+  projectId: "goooooning-a1e27",
+  storageBucket: "goooooning-a1e27.firebasestorage.app",
+  messagingSenderId: "563772913178",
+  appId: "1:563772913178:web:27dc00b3700cda979943a3"
 };
