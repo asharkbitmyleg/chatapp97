@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>*** WebChat 97 *** The Coolest Place To Message Your Friends!!</title>
+<style>
+  body {
+    margin: 0;
+    padding: 8px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
+    color: #000;
+    background-color: #008080;
+    background-image:
+      linear-gradient(45deg, #00a0a0 25%, transparent 25%, transparent 75%, #00a0a0 75%),
+      linear-gradient(45deg, #00a0a0 25%, transparent 25%, transparent 75%, #00a0a0 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+  }
+  a { color: #0000ee; }
+  a:visited { color: #551a8b; }
+  a:active { color: #ff0000; }
+
+  #page {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    padding: 6px;
+  }
+  .titlebar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 3px 6px;
+  }
+  .banner {
+    background: #000080;
+    color: #ffff00;
+    text-align: center;
+    padding: 6px;
+    border: 2px inset #fff;
+    margin: 6px 0;
+  }
+  .banner h1 {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 34px;
+    margin: 2px 0;
+    color: #ffff00;
+    text-shadow: 3px 3px 0 #ff0000;
+  }
+  .banner .sub { color: #00ffff; font-size: 14px; }
+  marquee {
+    background: #000;
+    color: #00ff00;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 15px;
+    padding: 2px;
+    border: 2px inset #fff;
+  }
+  .blink { animation: blink 1s steps(2, start) infinite; }
+  @keyframes blink { to { visibility: hidden; } }
+  @media (prefers-reduced-motion: reduce) { .blink { animation: none; } }
+
+  hr.rainbow {
+    border: 0;
+    height: 4px;
+    background: linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, magenta);
+    margin: 8px 0;
+  }
+
+  table.layout { width: 100%; border-collapse: separate; border-spacing: 4px; }
+  table.layout td { vertical-align: top; }
+  td.side { width: 250px; }
+
+  .box {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    margin-bottom: 6px;
+  }
+  .box > .hd {
+    background: #000080;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 2px 6px;
+  }
+  .box > .bd { padding: 6px; }
+
+  input[type=text], input[type=password], textarea {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    border: 2px inset #fff;
+    background: #fff;
+    padding: 2px 4px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  button, .btn {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    padding: 3px 10px;
+    cursor: pointer;
+    color: #000;
+  }
+  button:active { border-color: #404040 #fff #fff #404040; }
+  button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 1px dotted #000; outline-offset: -4px; }
+  button:disabled { color: #666; cursor: default; }
+
+  label { font-weight: bold; font-size: 14px; }
+  .row { margin-bottom: 6px; }
+  .err { color: #ff0000; font-weight: bold; font-size: 14px; min-height: 18px; }
+  .ok { color: #006400; font-weight: bold; font-size: 13px; }
+
+  ul.list { list-style: none; margin: 0; padding: 0; }
+  ul.list li {
+    border-bottom: 1px dotted #808080;
+    padding: 4px 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+    font-size: 15px;
+    flex-wrap: wrap;
+  }
+  ul.list li.active { background: #ffff99; }
+  ul.list .name { font-weight: bold; color: #0000ee; text-decoration: underline; cursor: pointer; }
+  ul.list .last { font-size: 12px; color: #404040; display: block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .empty { font-style: italic; color: #404040; font-size: 14px; }
+
+  .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #000;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .dot.on { background: #00cc00; }
+  .dot.off { background: #808080; }
+
+  .mini-btn {
+    padding: 2px 5px;
+    font-size: 11px;
+  }
+
+  #log {
+    background: #fff;
+    border: 2px inset #fff;
+    height: 340px;
+    overflow-y: auto;
+    padding: 6px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+  }
+  .msg { margin-bottom: 4px; word-wrap: break-word; overflow-wrap: anywhere; }
+  .msg .who { font-weight: bold; }
+  .msg.mine .who { color: #0000ee; }
+  .msg.theirs .who { color: #ff0000; }
+  .msg .ts { color: #808080; font-size: 11px; }
+
+  /* Retro Win95/97 Profile Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 8px;
+  }
+  .modal-backdrop.hidden { display: none; }
+  .modal-win {
+    width: 100%;
+    max-width: 380px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    padding: 4px;
+  }
+  .modal-win .titlebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .profile-field {
+    background: #fff;
+    border: 2px inset #fff;
+    padding: 4px 6px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 13px;
+    margin-top: 2px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .footer { text-align: center; font-size: 13px; margin-top: 6px; }
+  .footer .small { font-size: 11px; color: #404040; }
+  .construction {
+    border: 3px solid #000;
+    background: repeating-linear-gradient(45deg, #000 0 10px, #ffd700 10px 20px);
+    padding: 6px;
+    margin: 6px 0;
+    text-align: center;
+  }
+  .construction .msgbox {
+    display: inline-block;
+    background: #cc0000;
+    color: #fff;
+    font-family: "Arial Black", Arial, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding: 4px 14px;
+    border: 3px outset #ff7070;
+    text-shadow: 2px 2px 0 #000;
+  }
+  .construction .msgbox .hl { color: #ffff00; }
+  .hidden { display: none; }
+
+  @media (max-width: 640px) {
+    table.layout, table.layout tbody, table.layout tr, table.layout td { display: block; width: auto; }
+    td.side { width: auto; }
+    .banner h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div id="page">
+  <div class="titlebar">WebChat 97 - Netscape Navigator</div>
+
+  <div class="banner">
+    <h1>~*~ WebChat 97 ~*~</h1>
+    <div class="sub">The Coolest Place To Message Your Friends On The World Wide Web!</div>
+  </div>
+
+  <marquee scrollamount="4">*** Welcome to WebChat 97 *** Pick a username, search for a friend, and start chatting!!! *** NEW: Live messages, Profiles &amp; Friends! ***</marquee>
+
+  <div class="construction"><div class="msgbox"><span class="hl blink">&#9888;</span> UNDER CONSTRUCTION <span class="hl blink">&#9888;</span> <span class="hl">More features coming soon!</span></div></div>
+
+  <div id="setup" class="box hidden">
+    <div class="hd">Setup Needed</div>
+    <div class="bd">
+      <p><b>This site is not connected to a database yet.</b></p>
+      <p>Open <code>config.js</code>, paste in your Firebase settings, and reload. The README has the steps.</p>
+    </div>
+  </div>
+
+  <!-- LOGIN VIEW -->
+  <div id="loginView" class="hidden">
+    <table class="layout"><tr>
+      <td>
+        <div class="box">
+          <div class="hd">Sign In</div>
+          <div class="bd">
+            <div class="row">
+              <label for="loginUser">Username:</label><br>
+              <input type="text" id="loginUser" autocomplete="username" maxlength="16">
+            </div>
+            <div class="row">
+              <label for="loginPass">Password:</label><br>
+              <input type="password" id="loginPass" autocomplete="current-password">
+            </div>
+            <div class="err" id="loginErr" role="alert"></div>
+            <button type="button" id="loginBtn">Sign In</button>
+            <button type="button" id="registerBtn">Create Account</button>
+            <p style="font-size:13px;margin-bottom:0">Usernames: 3 to 16 letters and numbers. Passwords: 6 or more characters.</p>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="box">
+          <div class="hd">What Is This?</div>
+          <div class="bd">
+            <p>WebChat 97 lets you find people by <b>username</b> and send them messages that show up instantly.</p>
+            <ul>
+              <li>Create an account in 5 seconds</li>
+              <li>Search for any username (online or offline!)</li>
+              <li>Add friends and view user profiles</li>
+            </ul>
+            <p class="small" style="font-size:12px">Best viewed in Netscape Navigator 4.0 at 800x600.</p>
+          </div>
+        </div>
+      </td>
+    </tr></table>
+  </div>
+
+  <!-- APP VIEW -->
+  <div id="appView" class="hidden">
+    <table class="layout"><tr>
+      <td class="side">
+        <div class="box">
+          <div class="hd">You Are Logged In</div>
+          <div class="bd">
+            Hello, <b id="meName"></b>!<br><br>
+            <button type="button" id="myProfileBtn">My Profile</button>
+            <button type="button" id="logoutBtn">Sign Out</button>
+            <div id="profileStatus" style="font-size:13px;margin-top:8px;font-weight:bold"></div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="hd">Search Users</div>
+          <div class="bd">
+            <form id="searchForm" autocomplete="off">
+              <div class="row">
+                <label for="searchInput">Username:</label>
+                <input type="text" id="searchInput" maxlength="16" placeholder="Type username or leave blank for all">
+              </div>
+              <button type="submit">Search</button>
+              <button type="button" id="browseAllBtn">All Users</button>
+            </form>
+            <hr class="rainbow">
+            <ul class="list" id="results"></ul>
+            <div class="empty" id="resultsMsg">Start typing a username, or click All Users.</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="hd">Who&#39;s Online (<span id="onlineCount">0</span>)</div>
+          <div class="bd">
+            <ul class="list" id="online"></ul>
+            <div class="empty" id="onlineMsg">Nobody else is online right now.</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="hd">My Friends (<span id="friendsCount">0</span>)</div>
+          <div class="bd">
+            <ul class="list" id="friends"></ul>
+            <div class="empty" id="friendsMsg">No friends yet. Search for a user and click Add Friend.</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="hd">My Conversations</div>
+          <div class="bd">
+            <ul class="list" id="chats"></ul>
+            <div class="empty" id="chatsMsg">No conversations yet. Search for a user to say hi!</div>
+          </div>
+        </div>
+      </td>
+
+      <td>
+        <div class="box">
+          <div class="hd" id="chatTitle" style="display:flex;justify-content:space-between;align-items:center;">
+            <span id="chatTitleText">Message Window</span>
+            <span id="chatHeaderActions" class="hidden">
+              <button type="button" class="mini-btn" id="chatProfileBtn">Profile</button>
+              <button type="button" class="mini-btn" id="chatFriendBtn">Add Friend</button>
+            </span>
+          </div>
+          <div class="bd">
+            <div id="log"><div class="empty">Pick someone from the left to open a chat.</div></div>
+            <form id="sendForm" autocomplete="off" style="margin-top:6px">
+              <div class="row">
+                <input type="text" id="msgInput" maxlength="500" placeholder="Type your message here..." disabled>
+              </div>
+              <button type="submit" id="sendBtn" disabled>Send Message</button>
+              <span class="err" id="sendErr" role="alert"></span>
+            </form>
+          </div>
+        </div>
+      </td>
+    </tr></table>
+  </div>
+
+  <!-- PROFILE MODAL -->
+  <div id="profileModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-win">
+      <div class="titlebar">
+        <span id="profileModalTitle">User Profile</span>
+        <button type="button" class="mini-btn" id="closeProfileBtn">X</button>
+      </div>
+      <div class="bd" style="padding:8px;">
+        <div class="row">
+          <b>Username:</b> <span id="profUsername"></span>
+          <span id="profStatusBadge" style="margin-left:6px;font-size:12px;"></span>
+        </div>
+        <div class="row" style="font-size:13px;">
+          <b>Member Since:</b> <span id="profJoined">-</span>
+        </div>
+
+        <!-- View Mode -->
+        <div id="profViewSection">
+          <div class="row">
+            <label>Status / Mood:</label>
+            <div class="profile-field" id="profMoodView">(none)</div>
+          </div>
+          <div class="row">
+            <label>About Me:</label>
+            <div class="profile-field" id="profBioView">No bio set yet.</div>
+          </div>
+          <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+            <button type="button" id="profChatBtn">Message</button>
+            <button type="button" id="profFriendBtn">Add Friend</button>
+            <button type="button" id="profCloseBtn2">Close</button>
+          </div>
+        </div>
+
+        <!-- Edit Mode (own profile) -->
+        <div id="profEditSection" class="hidden">
+          <div class="row">
+            <label for="profMoodInput">Status / Mood (max 60 chars):</label>
+            <input type="text" id="profMoodInput" maxlength="60" placeholder="e.g. Chillin' on the net!">
+          </div>
+          <div class="row">
+            <label for="profBioInput">About Me (max 240 chars):</label>
+            <textarea id="profBioInput" rows="4" maxlength="240" placeholder="Write something about yourself..."></textarea>
+          </div>
+          <div class="err" id="profErr"></div>
+          <div class="ok" id="profOk"></div>
+          <div style="margin-top:8px;display:flex;gap:6px;">
+            <button type="button" id="profSaveBtn">Save Profile</button>
+            <button type="button" id="profCancelBtn">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rainbow">
+  <div class="footer">
+    <div>You are visitor number <b id="visitorCount" style="font-family:'Courier New',monospace;background:#000;color:#0f0;padding:1px 6px;letter-spacing:2px">------</b> <span class="small">(counts each browser once)</span></div>
+    <div class="small">&copy; 1997 WebChat (build 7). Made with Notepad. Best viewed with your eyes.</div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var cfg = window.FIREBASE_CONFIG;
+
+  if (!cfg || !cfg.apiKey || cfg.apiKey.indexOf("PASTE") === 0) {
+    $("setup").classList.remove("hidden");
+    return;
+  }
+
+  firebase.initializeApp(cfg);
+  var auth = firebase.auth();
+  var db = firebase.firestore();
+
+  var NAME_RE = /^[a-z0-9]{3,16}$/;
+  var me = null;
+  var currentOther = null;
+  var unsubMsgs = null;
+  var unsubChats = null;
+  var unsubFriends = null;
+  var friends = {};
+  var onlineMap = {}; // username -> boolean
+  var activeProfileUser = null;
+
+  function toEmail(u) { return u + "@webchat.local"; }
+  function chatIdFor(a, b) { return [a, b].sort().join("_"); }
+
+  function friendlyError(e) {
+    var c = e && e.code ? e.code : "";
+    if (c === "auth/email-already-in-use") return "That username is taken. Try another one!";
+    if (c === "auth/weak-password") return "Password must be at least 6 characters.";
+    if (c === "auth/invalid-credential" || c === "auth/wrong-password" || c === "auth/user-not-found" || c === "auth/invalid-login-credentials")
+      return "Wrong username or password.";
+    if (c === "auth/too-many-requests") return "Too many tries. Wait a minute and try again.";
+    if (c === "auth/operation-not-allowed") return "Email/Password sign-in is not enabled in Firebase.";
+    if (c === "permission-denied" || c === "firestore/permission-denied") return "Permission denied. Check your Firestore rules.";
+    return (e && e.message) ? e.message : "Something went wrong.";
+  }
+
+  function readCreds() {
+    var u = $("loginUser").value.trim().toLowerCase();
+    var p = $("loginPass").value;
+    if (!NAME_RE.test(u)) { $("loginErr").textContent = "Username must be 3-16 letters and numbers."; return null; }
+    if (!p) { $("loginErr").textContent = "Enter your password."; return null; }
+    $("loginErr").textContent = "";
+    return { u: u, p: p };
+  }
+
+  $("loginBtn").addEventListener("click", function () {
+    var c = readCreds(); if (!c) return;
+    auth.signInWithEmailAndPassword(toEmail(c.u), c.p).catch(function (e) {
+      $("loginErr").textContent = friendlyError(e);
+    });
+  });
+
+  $("registerBtn").addEventListener("click", function () {
+    var c = readCreds(); if (!c) return;
+    auth.createUserWithEmailAndPassword(toEmail(c.u), c.p).then(function (cred) {
+      return db.collection("users").doc(c.u).set({
+        username: c.u,
+        uid: cred.user.uid,
+        bio: "",
+        mood: "",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }).catch(function (e) {
+      $("loginErr").textContent = friendlyError(e);
+    });
+  });
+
+  ["loginUser", "loginPass"].forEach(function (id) {
+    $(id).addEventListener("keydown", function (ev) { if (ev.key === "Enter") $("loginBtn").click(); });
+  });
+
+  /* ---------- Fixed Sign Out Button ---------- */
+  $("logoutBtn").addEventListener("click", function () {
+    var btn = $("logoutBtn");
+    var who = me;
+    btn.disabled = true;
+    btn.textContent = "Signing out...";
+
+    // Best-effort presence cleanup with a short timeout so slow/offline network never blocks signOut
+    var cleanup = Promise.resolve();
+    if (who) {
+      cleanup = Promise.race([
+        db.collection("presence").doc(who).delete().catch(function () {}),
+        new Promise(function (resolve) { setTimeout(resolve, 1200); })
+      ]);
+    }
+
+    cleanup.then(function () {
+      return auth.signOut();
+    }).catch(function () {
+      // Force UI reset even if signOut rejects
+    }).finally(function () {
+      btn.disabled = false;
+      btn.textContent = "Sign Out";
+      me = null;
+      stopAll();
+      closeProfileModal();
+      $("appView").classList.add("hidden");
+      $("loginView").classList.remove("hidden");
+      $("loginPass").value = "";
+    });
+  });
+
+  auth.onAuthStateChanged(function (user) {
+    if (user && user.email) {
+      me = user.email.split("@")[0];
+      $("meName").textContent = me;
+      ensureProfile(user);
+      $("loginView").classList.add("hidden");
+      $("appView").classList.remove("hidden");
+      startChatList();
+      startFriends();
+      startPresence();
+    } else {
+      me = null;
+      stopAll();
+      closeProfileModal();
+      $("appView").classList.add("hidden");
+      $("loginView").classList.remove("hidden");
+      $("loginPass").value = "";
+    }
+  });
+
+  function setProfileStatus(text, bad) {
+    var el = $("profileStatus");
+    el.textContent = text;
+    el.style.color = bad ? "#ff0000" : "#006400";
+  }
+  function ensureProfile(user) {
+    var name = user.email.split("@")[0];
+    var ref = db.collection("users").doc(name);
+    setProfileStatus("Search profile: checking...", false);
+    ref.get().then(function (snap) {
+      if (snap.exists) { setProfileStatus("Search profile: OK \u2713", false); return; }
+      return ref.set({
+        username: name,
+        uid: user.uid,
+        bio: "",
+        mood: "",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(function () { setProfileStatus("Search profile: created \u2713", false); });
+    }).catch(function (e) {
+      setProfileStatus("Search profile FAILED: " + (e.code || e.message), true);
+    });
+  }
+
+  function stopAll() {
+    if (unsubMsgs) { unsubMsgs(); unsubMsgs = null; }
+    if (unsubChats) { unsubChats(); unsubChats = null; }
+    if (unsubFriends) { unsubFriends(); unsubFriends = null; }
+    stopPresence();
+    friends = {};
+    onlineMap = {};
+    $("friends").innerHTML = "";
+    $("friendsCount").textContent = "0";
+    $("friendsMsg").style.display = "";
+    currentOther = null;
+    $("results").innerHTML = "";
+    $("resultsMsg").textContent = "Start typing a username, or click All Users.";
+    $("resultsMsg").style.display = "";
+    $("chats").innerHTML = "";
+    $("log").innerHTML = '<div class="empty">Pick someone from the left to open a chat.</div>';
+    $("chatTitleText").textContent = "Message Window";
+    $("chatHeaderActions").classList.add("hidden");
+    $("msgInput").disabled = true;
+    $("sendBtn").disabled = true;
+  }
+
+  /* ---------- Search & Browse All Users (works for both online & offline accounts) ---------- */
+  var searchSeq = 0, searchTimer = null;
+
+  function renderUserResults(snap, emptyText, seq) {
+    if (seq !== searchSeq) return;
+    var list = $("results"), msg = $("resultsMsg");
+    list.innerHTML = "";
+    var found = 0;
+    snap.forEach(function (d) {
+      if (d.id === me) return;
+      found++;
+      list.appendChild(userActionRow(d.id));
+    });
+    if (found) {
+      msg.style.display = "none";
+    } else {
+      msg.textContent = emptyText;
+      msg.style.display = "";
+    }
+  }
+
+  function browseAllUsers() {
+    var msg = $("resultsMsg");
+    var seq = ++searchSeq;
+    msg.textContent = "Loading users...";
+    msg.style.display = "";
+    db.collection("users")
+      .orderBy(firebase.firestore.FieldPath.documentId())
+      .limit(50).get()
+      .then(function (snap) {
+        renderUserResults(snap, "No other registered users yet.", seq);
+      })
+      .catch(function (e) {
+        if (seq !== searchSeq) return;
+        msg.textContent = friendlyError(e);
+        msg.style.display = "";
+      });
+  }
+
+  function doSearch() {
+    var q = $("searchInput").value.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+    var list = $("results"), msg = $("resultsMsg");
+    var seq = ++searchSeq;
+    if (!q) {
+      list.innerHTML = "";
+      msg.textContent = "Start typing a username, or click All Users.";
+      msg.style.display = "";
+      return;
+    }
+    msg.textContent = "Searching...";
+    msg.style.display = "";
+    db.collection("users")
+      .orderBy(firebase.firestore.FieldPath.documentId())
+      .startAt(q).endAt(q + "\uf8ff").limit(30).get()
+      .then(function (snap) {
+        renderUserResults(snap, 'No users found starting with "' + q + '".', seq);
+      })
+      .catch(function (e) {
+        if (seq !== searchSeq) return;
+        msg.textContent = friendlyError(e);
+        msg.style.display = "";
+      });
+  }
+
+  $("searchForm").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    clearTimeout(searchTimer);
+    var q = $("searchInput").value.trim();
+    if (!q) browseAllUsers();
+    else doSearch();
+  });
+  $("browseAllBtn").addEventListener("click", function () {
+    clearTimeout(searchTimer);
+    $("searchInput").value = "";
+    browseAllUsers();
+  });
+  $("searchInput").addEventListener("input", function () {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(doSearch, 250);
+  });
+
+  function statusDot(name) {
+    var dot = document.createElement("span");
+    var isOn = !!onlineMap[name];
+    dot.className = "dot " + (isOn ? "on" : "off");
+    dot.setAttribute("data-dot-user", name);
+    dot.title = isOn ? "Online" : "Offline";
+    return dot;
+  }
+
+  function userRow(name, btnLabel, last, active) {
+    var li = document.createElement("li");
+    if (active) li.className = "active";
+    var left = document.createElement("div");
+    left.appendChild(statusDot(name));
+    var n = document.createElement("span");
+    n.className = "name";
+    n.textContent = name;
+    n.addEventListener("click", function () { openChat(name); });
+    left.appendChild(n);
+    if (last) {
+      var l = document.createElement("span");
+      l.className = "last";
+      l.textContent = last;
+      left.appendChild(l);
+    }
+    li.appendChild(left);
+
+    var box = document.createElement("div");
+    var p = document.createElement("button");
+    p.className = "mini-btn";
+    p.textContent = "Profile";
+    p.addEventListener("click", function () { openProfile(name); });
+    var b = document.createElement("button");
+    b.className = "mini-btn";
+    b.textContent = btnLabel;
+    b.addEventListener("click", function () { openChat(name); });
+    box.appendChild(p);
+    box.appendChild(document.createTextNode(" "));
+    box.appendChild(b);
+    li.appendChild(box);
+    return li;
+  }
+
+  /* ---------- Visitor counter (1 count per browser, tamper-resistant) ---------- */
+  function showCount(n) {
+    $("visitorCount").textContent = ("000000" + n).slice(-6);
+  }
+
+  function getOrCreateBrowserId() {
+    var key = "wc97_browser_id";
+    var id = null;
+    try { id = localStorage.getItem(key); } catch (e) {}
+    if (id && /^[a-z0-9]{16,40}$/.test(id)) return id;
+
+    var arr = new Uint8Array(16);
+    if (window.crypto && window.crypto.getRandomValues) {
+      window.crypto.getRandomValues(arr);
+    } else {
+      for (var i = 0; i < arr.length; i++) arr[i] = Math.floor(Math.random() * 256);
+    }
+    id = Array.prototype.map.call(arr, function (b) {
+      return ("0" + b.toString(16)).slice(-2);
+    }).join("");
+    try { localStorage.setItem(key, id); } catch (e) {}
+    return id;
+  }
+
+  function countVisit() {
+    var metaRef = db.collection("meta").doc("visitors");
+    var browserId = getOrCreateBrowserId();
+    var visitorRef = db.collection("visitors").doc(browserId);
+
+    // Always read current count first
+    metaRef.get().then(function (metaSnap) {
+      var currentCount = metaSnap.exists ? (metaSnap.data().count || 0) : 0;
+      showCount(currentCount);
+
+      // Check Firestore receipt for this browserId (prevents replay even if localStorage flag was cleared)
+      return visitorRef.get().then(function (vSnap) {
+        if (vSnap.exists) {
+          try { localStorage.setItem("wc97_counted", "1"); } catch (e) {}
+          return;
+        }
+        // Create unique browser receipt + atomically increment counter in a batch
+        var batch = db.batch();
+        batch.set(visitorRef, {
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        if (metaSnap.exists) {
+          batch.update(metaRef, { count: firebase.firestore.FieldValue.increment(1) });
+        } else {
+          batch.set(metaRef, { count: 1 });
+        }
+        return batch.commit().then(function () {
+          try { localStorage.setItem("wc97_counted", "1"); } catch (e) {}
+          showCount(currentCount + 1);
+        });
+      });
+    }).catch(function () { /* leave dashes or last known count if unreachable */ });
+  }
+  countVisit();
+
+  /* ---------- Online presence ---------- */
+  var ONLINE_MS = 100000;
+  var unsubPresence = null, beatTimer = null, renderTimer = null, presenceRows = [];
+
+  function beat() {
+    if (!me || document.hidden) return;
+    db.collection("presence").doc(me).set({
+      username: me,
+      lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function () {});
+  }
+  function startPresence() {
+    stopPresence();
+    beat();
+    beatTimer = setInterval(beat, 30000);
+    renderTimer = setInterval(renderOnline, 10000);
+    unsubPresence = db.collection("presence").orderBy("lastSeen", "desc").limit(100)
+      .onSnapshot(function (snap) {
+        presenceRows = [];
+        snap.forEach(function (d) {
+          var data = d.data({ serverTimestamps: "estimate" });
+          var t = data.lastSeen && data.lastSeen.toMillis ? data.lastSeen.toMillis() : 0;
+          presenceRows.push({ name: d.id, t: t });
+        });
+        renderOnline();
+      }, function (e) {
+        $("onlineMsg").textContent = friendlyError(e);
+        $("onlineMsg").style.display = "";
+      });
+  }
+  function stopPresence() {
+    if (unsubPresence) { unsubPresence(); unsubPresence = null; }
+    if (beatTimer) { clearInterval(beatTimer); beatTimer = null; }
+    if (renderTimer) { clearInterval(renderTimer); renderTimer = null; }
+    presenceRows = [];
+    onlineMap = {};
+    $("online").innerHTML = "";
+    $("onlineCount").textContent = "0";
+    $("onlineMsg").textContent = "Nobody else is online right now.";
+    $("onlineMsg").style.display = "";
+  }
+  function renderOnline() {
+    var ul = $("online");
+    ul.innerHTML = "";
+    var now = Date.now(), n = 0;
+    var nextOnline = {};
+    presenceRows.forEach(function (r) {
+      if (now - r.t <= ONLINE_MS) {
+        nextOnline[r.name] = true;
+        if (r.name !== me) {
+          n++;
+          ul.appendChild(userActionRow(r.name));
+        }
+      }
+    });
+    onlineMap = nextOnline;
+    $("onlineCount").textContent = n;
+    $("onlineMsg").textContent = "Nobody else is online right now.";
+    $("onlineMsg").style.display = n ? "none" : "";
+    refreshStatusDots();
+  }
+  function refreshStatusDots() {
+    document.querySelectorAll("[data-dot-user]").forEach(function (dot) {
+      var u = dot.getAttribute("data-dot-user");
+      var isOn = !!onlineMap[u];
+      dot.className = "dot " + (isOn ? "on" : "off");
+      dot.title = isOn ? "Online" : "Offline";
+    });
+    if (activeProfileUser && !$("profileModal").classList.contains("hidden")) {
+      updateProfileOnlineBadge(activeProfileUser);
+    }
+  }
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) beat(); });
+
+  /* ---------- Friends ---------- */
+  function friendsRef() { return db.collection("users").doc(me).collection("friends"); }
+
+  function startFriends() {
+    if (unsubFriends) unsubFriends();
+    unsubFriends = friendsRef().onSnapshot(function (snap) {
+      friends = {};
+      var names = [];
+      snap.forEach(function (d) { friends[d.id] = true; names.push(d.id); });
+      names.sort();
+      var ul = $("friends");
+      ul.innerHTML = "";
+      $("friendsCount").textContent = names.length;
+      $("friendsMsg").style.display = names.length ? "none" : "";
+      names.forEach(function (n) { ul.appendChild(friendRow(n)); });
+      refreshFriendButtons();
+    }, function (e) {
+      $("friendsMsg").textContent = friendlyError(e);
+      $("friendsMsg").style.display = "";
+    });
+  }
+
+  function addFriend(name) {
+    if (!me || !name || name === me) return;
+    friendsRef().doc(name).set({
+      username: name,
+      addedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function (e) {
+      $("resultsMsg").textContent = friendlyError(e);
+      $("resultsMsg").style.display = "";
+    });
+  }
+  function removeFriend(name) {
+    if (!me || !name) return;
+    friendsRef().doc(name).delete().catch(function (e) {
+      $("friendsMsg").textContent = friendlyError(e);
+      $("friendsMsg").style.display = "";
+    });
+  }
+  function toggleFriend(name) {
+    if (friends[name]) removeFriend(name);
+    else addFriend(name);
+  }
+
+  function friendRow(name) {
+    var li = document.createElement("li");
+    var left = document.createElement("div");
+    left.appendChild(statusDot(name));
+    var n = document.createElement("span");
+    n.className = "name";
+    n.textContent = name;
+    n.addEventListener("click", function () { openChat(name); });
+    left.appendChild(n);
+
+    var box = document.createElement("div");
+    var p = document.createElement("button");
+    p.className = "mini-btn";
+    p.textContent = "Profile";
+    p.addEventListener("click", function () { openProfile(name); });
+    var m = document.createElement("button");
+    m.className = "mini-btn";
+    m.textContent = "Chat";
+    m.addEventListener("click", function () { openChat(name); });
+    var r = document.createElement("button");
+    r.className = "mini-btn";
+    r.textContent = "X";
+    r.title = "Remove friend";
+    r.addEventListener("click", function () { removeFriend(name); });
+    box.appendChild(p);
+    box.appendChild(document.createTextNode(" "));
+    box.appendChild(m);
+    box.appendChild(document.createTextNode(" "));
+    box.appendChild(r);
+    li.appendChild(left);
+    li.appendChild(box);
+    return li;
+  }
+
+  function userActionRow(name) {
+    var li = document.createElement("li");
+    li.setAttribute("data-user", name);
+    var left = document.createElement("div");
+    left.appendChild(statusDot(name));
+    var n = document.createElement("span");
+    n.className = "name";
+    n.textContent = name;
+    n.addEventListener("click", function () { openChat(name); });
+    left.appendChild(n);
+
+    var box = document.createElement("div");
+    var p = document.createElement("button");
+    p.className = "mini-btn";
+    p.textContent = "Profile";
+    p.addEventListener("click", function () { openProfile(name); });
+    var m = document.createElement("button");
+    m.className = "mini-btn";
+    m.textContent = "Chat";
+    m.addEventListener("click", function () { openChat(name); });
+    var a = document.createElement("button");
+    a.className = "mini-btn addbtn";
+    a.addEventListener("click", function () { if (!friends[name]) addFriend(name); });
+    box.appendChild(p);
+    box.appendChild(document.createTextNode(" "));
+    box.appendChild(m);
+    box.appendChild(document.createTextNode(" "));
+    box.appendChild(a);
+    li.appendChild(left);
+    li.appendChild(box);
+    setAddButton(a, name);
+    return li;
+  }
+
+  function setAddButton(btn, name) {
+    if (!btn) return;
+    var isFriend = !!friends[name];
+    btn.textContent = isFriend ? "Friend \u2713" : "Add Friend";
+    btn.disabled = isFriend;
+  }
+
+  function refreshFriendButtons() {
+    document.querySelectorAll("li[data-user]").forEach(function (li) {
+      setAddButton(li.querySelector(".addbtn"), li.getAttribute("data-user"));
+    });
+    if (currentOther) {
+      $("chatFriendBtn").textContent = friends[currentOther] ? "Remove Friend" : "Add Friend";
+    }
+    if (activeProfileUser && activeProfileUser !== me) {
+      $("profFriendBtn").textContent = friends[activeProfileUser] ? "Remove Friend" : "Add Friend";
+    }
+  }
+
+  /* ---------- Profiles ---------- */
+  function updateProfileOnlineBadge(username) {
+    var isOn = username === me || !!onlineMap[username];
+    var badge = $("profStatusBadge");
+    badge.innerHTML = "";
+    var dot = document.createElement("span");
+    dot.className = "dot " + (isOn ? "on" : "off");
+    badge.appendChild(dot);
+    badge.appendChild(document.createTextNode(isOn ? "Online" : "Offline"));
+  }
+
+  function openProfile(username) {
+    if (!me || !username) return;
+    activeProfileUser = username;
+    var isMe = username === me;
+    $("profileModalTitle").textContent = isMe ? "My Profile" : ("Profile: " + username);
+    $("profUsername").textContent = username;
+    $("profJoined").textContent = "Loading...";
+    $("profErr").textContent = "";
+    $("profOk").textContent = "";
+    updateProfileOnlineBadge(username);
+
+    if (isMe) {
+      $("profViewSection").classList.add("hidden");
+      $("profEditSection").classList.remove("hidden");
+      $("profMoodInput").value = "";
+      $("profBioInput").value = "";
+    } else {
+      $("profEditSection").classList.add("hidden");
+      $("profViewSection").classList.remove("hidden");
+      $("profMoodView").textContent = "Loading...";
+      $("profBioView").textContent = "Loading...";
+      $("profFriendBtn").textContent = friends[username] ? "Remove Friend" : "Add Friend";
+    }
+
+    $("profileModal").classList.remove("hidden");
+
+    db.collection("users").doc(username).get().then(function (snap) {
+      if (activeProfileUser !== username) return;
+      var data = snap.exists ? snap.data() : {};
+      var joined = (data.createdAt && data.createdAt.toDate)
+        ? data.createdAt.toDate().toLocaleDateString()
+        : "Unknown";
+      $("profJoined").textContent = joined;
+      if (isMe) {
+        $("profMoodInput").value = data.mood || "";
+        $("profBioInput").value = data.bio || "";
+      } else {
+        $("profMoodView").textContent = data.mood ? data.mood : "(none)";
+        $("profBioView").textContent = data.bio ? data.bio : "No bio set yet.";
+      }
+    }).catch(function (e) {
+      if (activeProfileUser !== username) return;
+      $("profJoined").textContent = "-";
+      if (isMe) {
+        $("profErr").textContent = friendlyError(e);
+      } else {
+        $("profBioView").textContent = friendlyError(e);
+      }
+    });
+  }
+
+  function closeProfileModal() {
+    activeProfileUser = null;
+    $("profileModal").classList.add("hidden");
+  }
+
+  $("myProfileBtn").addEventListener("click", function () { openProfile(me); });
+  $("closeProfileBtn").addEventListener("click", closeProfileModal);
+  $("profCloseBtn2").addEventListener("click", closeProfileModal);
+  $("profCancelBtn").addEventListener("click", closeProfileModal);
+  $("profileModal").addEventListener("click", function (ev) {
+    if (ev.target === $("profileModal")) closeProfileModal();
+  });
+
+  $("profChatBtn").addEventListener("click", function () {
+    var target = activeProfileUser;
+    closeProfileModal();
+    if (target) openChat(target);
+  });
+
+  $("profFriendBtn").addEventListener("click", function () {
+    if (activeProfileUser && activeProfileUser !== me) {
+      toggleFriend(activeProfileUser);
+    }
+  });
+
+  $("profSaveBtn").addEventListener("click", function () {
+    if (!me) return;
+    var mood = $("profMoodInput").value.trim().slice(0, 60);
+    var bio = $("profBioInput").value.trim().slice(0, 240);
+    $("profErr").textContent = "";
+    $("profOk").textContent = "Saving...";
+    db.collection("users").doc(me).set({
+      username: me,
+      uid: auth.currentUser ? auth.currentUser.uid : "",
+      mood: mood,
+      bio: bio
+    }, { merge: true }).then(function () {
+      $("profOk").textContent = "Profile saved \u2713";
+    }).catch(function (e) {
+      $("profOk").textContent = "";
+      $("profErr").textContent = friendlyError(e);
+    });
+  });
+
+  /* ---------- Conversation list ---------- */
+  function startChatList() {
+    if (unsubChats) unsubChats();
+    unsubChats = db.collection("chats").where("participants", "array-contains", me)
+      .onSnapshot(function (snap) {
+        var rows = [];
+        snap.forEach(function (d) {
+          var data = d.data({ serverTimestamps: "estimate" });
+          var other = (data.participants || []).filter(function (p) { return p !== me; })[0];
+          if (!other) return;
+          var t = data.updatedAt && data.updatedAt.toMillis ? data.updatedAt.toMillis() : 0;
+          rows.push({ other: other, last: data.lastMessage || "", t: t });
+        });
+        rows.sort(function (a, b) { return b.t - a.t; });
+        renderChats(rows);
+      }, function (e) {
+        $("chatsMsg").textContent = friendlyError(e);
+      });
+  }
+
+  function renderChats(rows) {
+    var ul = $("chats");
+    ul.innerHTML = "";
+    $("chatsMsg").style.display = rows.length ? "none" : "";
+    rows.forEach(function (r) {
+      ul.appendChild(userRow(r.other, "Open", r.last, r.other === currentOther));
+    });
+  }
+
+  /* ---------- Chat window ---------- */
+  $("chatProfileBtn").addEventListener("click", function () {
+    if (currentOther) openProfile(currentOther);
+  });
+  $("chatFriendBtn").addEventListener("click", function () {
+    if (currentOther) toggleFriend(currentOther);
+  });
+
+  function openChat(other) {
+    if (!me || other === me) return;
+    currentOther = other;
+    $("chatTitleText").textContent = "Chatting with " + other;
+    $("chatHeaderActions").classList.remove("hidden");
+    $("chatFriendBtn").textContent = friends[other] ? "Remove Friend" : "Add Friend";
+    $("msgInput").disabled = false;
+    $("sendBtn").disabled = false;
+    $("sendErr").textContent = "";
+    $("log").innerHTML = '<div class="empty">Loading messages...</div>';
+    if (unsubMsgs) unsubMsgs();
+
+    var cid = chatIdFor(me, other);
+    unsubMsgs = db.collection("chats").doc(cid).collection("messages")
+      .orderBy("createdAt").limitToLast(200)
+      .onSnapshot(function (snap) {
+        var log = $("log");
+        var stick = log.scrollTop + log.clientHeight >= log.scrollHeight - 30;
+        log.innerHTML = "";
+        if (snap.empty) {
+          log.innerHTML = '<div class="empty">No messages yet. Say hello to ' + escapeHtml(other) + '!</div>';
+          return;
+        }
+        snap.forEach(function (d) {
+          var m = d.data({ serverTimestamps: "estimate" });
+          var div = document.createElement("div");
+          div.className = "msg " + (m.from === me ? "mine" : "theirs");
+          var ts = document.createElement("span");
+          ts.className = "ts";
+          ts.textContent = "[" + fmtTime(m.createdAt) + "] ";
+          var who = document.createElement("span");
+          who.className = "who";
+          who.textContent = m.from + ": ";
+          var body = document.createElement("span");
+          body.textContent = m.text;
+          div.appendChild(ts); div.appendChild(who); div.appendChild(body);
+          log.appendChild(div);
+        });
+        if (stick) log.scrollTop = log.scrollHeight;
+      }, function (e) {
+        $("log").innerHTML = "";
+        var d = document.createElement("div");
+        d.className = "err"; d.textContent = friendlyError(e);
+        $("log").appendChild(d);
+      });
+
+    $("msgInput").focus();
+    var items = $("chats").querySelectorAll("li");
+    items.forEach(function (li) {
+      var n = li.querySelector(".name");
+      li.classList.toggle("active", n && n.textContent === other);
+    });
+  }
+
+  $("sendForm").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!me || !currentOther) return;
+    var text = $("msgInput").value.trim();
+    if (!text) return;
+    $("sendErr").textContent = "";
+    var cid = chatIdFor(me, currentOther);
+    var chatRef = db.collection("chats").doc(cid);
+    var msgRef = chatRef.collection("messages").doc();
+    var ts = firebase.firestore.FieldValue.serverTimestamp();
+    var batch = db.batch();
+    batch.set(chatRef, {
+      participants: [me, currentOther].sort(),
+      lastMessage: text.slice(0, 80),
+      updatedAt: ts
+    }, { merge: true });
+    batch.set(msgRef, { from: me, text: text, createdAt: ts });
+    $("msgInput").value = "";
+    batch.commit().catch(function (e) {
+      $("sendErr").textContent = friendlyError(e);
+      $("msgInput").value = text;
+    });
+  });
+
+  /* ---------- helpers ---------- */
+  function fmtTime(t) {
+    if (!t || !t.toDate) return "--:--";
+    var d = t.toDate();
+    var h = d.getHours(), m = d.getMinutes();
+    return (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
+  }
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+})();
+</script>
+</body>
+</html>
